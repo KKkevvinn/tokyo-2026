@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>東京 6 天行程 | GO TO JAPAN WITH QIAN</title>
+<style>
+:root{
+  --bg:#faf7f2; --card:#ffffff; --ink:#2d2a26; --sub:#8a8378;
+  --accent:#d4593e; --accent2:#3e7bd4; --ok:#3da865; --alt:#d99a26;
+  --line:#eee7dc; --radius:14px;
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+body{margin:0; font-family:"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif; background:var(--bg); color:var(--ink); padding-bottom:40px}
+header.top{background:linear-gradient(135deg,#d4593e,#c23a52); color:#fff; padding:18px 16px 14px; text-align:center}
+header.top h1{margin:0; font-size:1.25rem; letter-spacing:1px}
+header.top p{margin:4px 0 0; font-size:.8rem; opacity:.9}
+#overallWrap{margin:10px auto 0; max-width:340px}
+#overallBar{height:8px; background:rgba(255,255,255,.3); border-radius:4px; overflow:hidden}
+#overallFill{height:100%; width:0; background:#fff; border-radius:4px; transition:width .4s}
+#overallTxt{font-size:.72rem; margin-top:4px; opacity:.95}
+nav#tabs{position:sticky; top:0; z-index:50; display:flex; overflow-x:auto; background:var(--card); border-bottom:1px solid var(--line); box-shadow:0 2px 8px rgba(0,0,0,.05); scrollbar-width:none}
+nav#tabs::-webkit-scrollbar{display:none}
+nav#tabs button{flex:0 0 auto; border:0; background:none; padding:12px 14px; font-size:.85rem; color:var(--sub); border-bottom:3px solid transparent; cursor:pointer; white-space:nowrap; font-family:inherit}
+nav#tabs button.on{color:var(--accent); border-bottom-color:var(--accent); font-weight:700}
+main{max-width:640px; margin:0 auto; padding:14px}
+.day-head{display:flex; align-items:baseline; gap:10px; margin:6px 2px 10px}
+.day-head h2{margin:0; font-size:1.15rem}
+.day-head .wd{font-size:.8rem; color:var(--sub)}
+.day-head .prog{margin-left:auto; font-size:.75rem; color:var(--ok); font-weight:700}
+.stay{font-size:.78rem; color:var(--sub); margin:0 2px 12px}
+.mapbox{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; margin-bottom:14px}
+.mapbox iframe{width:100%; height:220px; border:0; display:block}
+.routebtn{display:block; text-align:center; padding:12px; background:var(--accent2); color:#fff; text-decoration:none; font-size:.9rem; font-weight:700}
+.routebtn:active{opacity:.85}
+.item{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:12px; margin-bottom:10px; display:flex; gap:10px; align-items:flex-start}
+.item.alt{border:1.5px dashed var(--alt); background:#fffaf0}
+.item.done{opacity:.62}
+.item.done .nm{text-decoration:line-through}
+.chk{flex:0 0 auto; width:26px; height:26px; border:2px solid #cfc6b8; border-radius:8px; background:#fff; display:flex; align-items:center; justify-content:center; font-size:16px; cursor:pointer; margin-top:2px; color:transparent}
+.item.done .chk{background:var(--ok); border-color:var(--ok); color:#fff}
+.body{flex:1; min-width:0}
+.tm{font-size:.72rem; color:var(--accent2); font-weight:700}
+.nm{font-size:.95rem; font-weight:600; margin:2px 0}
+.nt{font-size:.78rem; color:var(--sub); line-height:1.5}
+.badges{display:inline-flex; gap:4px; vertical-align:middle}
+.badge{font-size:.65rem; padding:1px 7px; border-radius:20px; font-weight:700}
+.badge.meal{background:#fdeee7; color:var(--accent)}
+.badge.altb{background:#fdf3dc; color:#a9770f}
+.alb{font-size:.65rem; padding:1px 7px; border-radius:20px; font-weight:700; background:#e8f0fd; color:var(--accent2); text-decoration:none}
+.pics{display:flex; gap:8px; margin-top:8px; overflow-x:auto; padding-bottom:2px}
+.pic{width:96px; height:72px; border-radius:9px; object-fit:cover; background:#f1ece3; flex:0 0 auto}
+.upl{width:96px; height:72px; border-radius:9px; border:1.5px dashed #cfc6b8; display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:.62rem; color:var(--sub); cursor:pointer; flex:0 0 auto; text-align:center; position:relative; overflow:hidden}
+.upl img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
+.upl .del{position:absolute; top:2px; right:2px; background:rgba(0,0,0,.55); color:#fff; border:0; border-radius:50%; width:20px; height:20px; font-size:11px; line-height:1; cursor:pointer; z-index:2}
+.upl input{display:none}
+.sec{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:14px; margin-bottom:12px}
+.sec h3{margin:0 0 10px; font-size:1rem; color:var(--accent)}
+.eat{display:flex; align-items:flex-start; gap:10px; padding:9px 0; border-top:1px dashed var(--line)}
+.eat:first-of-type{border-top:0}
+.eat .en{font-size:.9rem; font-weight:600}
+.eat.done .en{text-decoration:line-through; color:var(--sub)}
+.eat .ep{font-size:.75rem; color:var(--sub); margin-top:2px}
+.addrow{display:flex; gap:8px; margin-top:10px}
+.addrow input{flex:1; border:1px solid var(--line); border-radius:9px; padding:10px; font-size:.9rem; font-family:inherit}
+.addrow button{border:0; background:var(--accent); color:#fff; border-radius:9px; padding:0 16px; font-size:.9rem; cursor:pointer; font-family:inherit}
+.note{font-size:.72rem; color:var(--sub); text-align:center; margin:14px 6px 0; line-height:1.6}
+.flight{font-size:.8rem; line-height:1.7; color:var(--ink)}
+.hidden{display:none}
+.quota{font-size:.68rem; color:var(--sub); text-align:right; margin-top:2px}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>🗼 GO TO JAPAN WITH QIAN</h1>
+  <p>東京 2026/11/12(四) – 11/17(二) · 6 天</p>
+  <div id="overallWrap"><div id="overallBar"><div id="overallFill"></div></div><div id="overallTxt"></div></div>
+</header>
+<nav id="tabs"></nav>
+<main id="main"></main>
+<script>
+'use strict';
+/* ★★ 部署 Apps Script 後,把「網頁應用程式 URL」(…/exec)貼在下面引號內 ★★
+   留空 = 照片存手機瀏覽器(localStorage);填入 = 照片上傳 Google 雲端共享相簿 */
+const GAS_URL='';
+const LS='tky26_';
+const AIRBNB='曳舟站 Airbnb';
+
+/* ---------- 行程資料 ---------- */
+const DAYS=[
+{id:'d1',date:'11/12',wd:'四',title:'Day 1 出發前夕',stay:'💤 家裡 / 桃機住宿',mapQ:'桃園國際機場',route:null,items:[
+ {t:'全日',n:'上班社畜 💼',note:'撐住,明天出發!記得護照、日幣、行動電源、Visit Japan Web 先填好'},
+ {t:'晚上',n:'媽媽他們先到桃園機場附近住宿',note:'明早 4:30 前機場集合'}
+]},
+{id:'d2',date:'11/13',wd:'五',title:'Day 2 抵達東京・上野淺草',stay:'💤 '+AIRBNB,mapQ:'浅草寺',route:['成田国際空港 第1ターミナル','京成曳舟駅','らーめん鴨to葱 上野御徒町本店','上野恩賜公園','アメ横','浅草寺 雷門','東京スカイツリー','曳舟駅'],items:[
+ {t:'04:30',n:'桃園機場集合',note:'4:30 前到桃機,6:30 上飛機'},
+ {t:'06:30',n:'起飛 ✈️(飛機餐)',meal:1},
+ {t:'10:30',n:'成田機場下飛機',note:'預估 11:30 出關',wiki:'成田国際空港'},
+ {t:'11:30-12:20',n:'Access 特急:成田 → 京成曳舟',note:'約 50 分鐘直達「京成曳舟站」,票價 ¥1,100'},
+ {t:'12:40-13:30',n:'Airbnb 放行李、休息',note:AIRBNB},
+ {t:'14:00',n:'鴨to葱(上野御徒町)',meal:1,note:'鴨拉麵約 ¥1,080–1,200,本店 24 小時營業',folder:'192SJP-XDDp3dOAE5h8B3z4w343rZFDPN'},
+ {t:'15:00',n:'上野公園賞楓散步',wiki:'上野恩賜公園',folder:'1f-a_4dXp5JYebnrK2Uo5O-fMe9nfapN8'},
+ {t:'16:30',n:'阿美橫町 吃+逛',meal:1,wiki:'アメヤ横丁',folder:'1M49E7_EVVGwLagyN7Y8wdSQ1XgNlXPbn'},
+ {t:'18:30',n:'雷門・淺草寺 夜間參拜',wiki:'浅草寺',folder:'1DGV3BCKPz9ijiINOaPIcF6zlgMgKMCTd'},
+ {t:'19:30',n:'晴空塔+隅田川賞夜景',wiki:'東京スカイツリー',folder:'1dR3d47Nw7b4BEHLlIgvAGNlEuZglvFJ8'},
+ {t:'宵夜',n:'餓了可吃鳥貴族或超商買回去',meal:1,note:'鳥貴族全品 ¥390 均一,約 ¥2,000–3,000/人',folder:'1GZP1aaItGr6AHRXlORdfY_DyndI7Eb_m'}
+]},
+{id:'d3',date:'11/14',wd:'六',title:'Day 3 明治神宮・表參道・澀谷',stay:'💤 '+AIRBNB,mapQ:'渋谷スクランブル交差点',route:['曳舟駅','明治神宮','表参道','渋谷PARCO','HARBS 渋谷ヒカリエ ShinQs店','SHIBUYA SKY','和牛放題の殿堂 肉屋横丁 渋谷宇田川町店','曳舟駅'],items:[
+ {t:'08:00',n:'早餐(未定,超商或路上找)',meal:1},
+ {t:'09:00',n:'出發'},
+ {t:'10:00-11:00',n:'明治神宮',wiki:'明治神宮',folder:'1f9tbSVSUqxy1w17ApO0U8mTYWG0p0uxm'},
+ {t:'11:00-15:00',n:'表參道逛街',wiki:'表参道',folder:'1Xc5OLFAXGqoaLJvP1Ph-R6zXgLs3vd-z'},
+ {t:'11:00-15:00',n:'澀谷:PARCO・LOFT・任天堂・Disney Store',note:'十字路口、忠犬八公合照',wiki:'渋谷スクランブル交差点',folder:'12lPh1nwPaC5BE2x3motWxJTYFMchEiB_'},
+ {t:'午餐',n:'中間隨便找',meal:1},
+ {t:'15:10',n:'Harbs 澀谷 Hikarie ShinQs 店',meal:1,note:'水果千層必點,蛋糕一份約 ¥980–1,100',folder:'1pkHphFvuLot934_gsHud34Aa2Jat9PYQ'},
+ {t:'16:00-17:30',n:'SHIBUYA SKY 看夕陽',note:'網路票 ¥2,700(15:00 後場次 ¥3,400)、現場 ¥3,000 起。日落場次很搶,務必提前線上購票!',wiki:'渋谷スクランブルスクエア',folder:'1Fqw9Db93nABdWNpgZ2MDIrpi7_TnMrYG'},
+ {t:'18:00-20:00',n:'和牛放題の殿堂 肉屋橫丁',meal:1,note:'澀谷宇田川町店。シブホル ¥4,500/和牛まみれ ¥6,980(100 分鐘放題,+¥1,000 酒精放題)',folder:'1QVS0s7olqK63QraqOXtK1mgTojJwPLvV'}
+]},
+{id:'d4',date:'11/15',wd:'日',title:'Day 4 淺草・台場・銀座',stay:'💤 '+AIRBNB,mapQ:'お台場海浜公園',route:['曳舟駅','浅草仲見世通り','お台場海浜公園','豊洲市場','teamLab Planets TOKYO','泉天空の湯 有明ガーデン','銀座','東京駅','曳舟駅'],items:[
+ {t:'09:00',n:'出發'},
+ {t:'09:20',n:'淺草仲見世商店街',wiki:'浅草寺',folder:'1Yix-D3T68_sAcVtAchwrxw6T-TqybGIN'},
+ {t:'上午',n:'淺草小吃:人形燒・炸饅頭・糰子・炸肉餅・布丁',meal:1,folder:'15NwpvpTFPARe9LBgOnNNgzrYYlJiWZe2'},
+ {t:'12:00',n:'搭水上巴士到台場',note:'隅田川遊船,沿途看橋景',wiki:'お台場',folder:'1uK5xgZdS0aas9o2LqpFi34DQ0ldGeV9J'},
+ {t:'13:00',n:'台場・豐洲市場壽司',meal:1,wiki:'豊洲市場',folder:'1bz9Z4nO93G88iJ-30c2vhjyRrV63d_j2'},
+ {t:'14:00-15:30',n:'teamLab Planets TOKYO',alt:1,note:'⚠️ 如果其他人不去要換(考慮中,或放棄直接去泡湯)。門票大人約 ¥3,800 起(浮動票價),要提前買',wiki:'チームラボ',folder:'1KaB7oto3UQh_KKtyrwRoAMEyhLTZCoPX'},
+ {t:'16:00-17:30',n:'泡湯(暫定 泉天空の湯 有明)',note:'週日假日 ¥3,800(含毛巾),深夜留館另計',folder:'1EpIwfsfKjSwyuclZhvB0HhXiSacxkrk2'},
+ {t:'18:00-19:30',n:'銀座晚餐(擇一)',meal:1,note:'人形町今半壽喜燒(午膳¥4,400起/晚間¥10,000+)/五代目花山烏冬(鬼釜¥1,200)/東京油組拉麵(約¥1,000)/篝拉麵(約¥1,300–1,500)',wiki:'銀座',folder:'1JAP5zL3FAK022nfnEXgMmbCKDRp9MY5r'},
+ {t:'-21:00',n:'東京車站夜景+採買(如有餘裕)',alt:1,note:'一番街伴手禮:NY Perfect Cheese、東京牛奶起司工房都在這',wiki:'東京駅',folder:'14vXRAL2ZMqBctwt92udK-ohYHWjlo9Bb'}
+]},
+{id:'d5',date:'11/16',wd:'一',title:'Day 5 富士山一日(租車)',stay:'💤 '+AIRBNB,mapQ:'河口湖',route:['曳舟駅','下吉田駅','河口湖遊覧船 のりば','~河口湖富士山パノラマロープウェイ','ほうとう不動 河口湖駅前店','山中湖 長池親水公園','御殿場プレミアム・アウトレット','芝公園','曳舟駅'],items:[
+ {t:'07:00',n:'日本麥當勞早餐',meal:1},
+ {t:'07:30',n:'租車出發前往富士山',note:'記得帶駕照日文譯本!'},
+ {t:'09:30',n:'下吉田商店街',note:'本町通拍富士山街景',wiki:'富士吉田市',folder:'1bQx9I6PX0G3tzvU583pee8-fbgBi6696'},
+ {t:'10:30',n:'河口湖遊船+纜車',note:'天上山纜車看富士山',wiki:'河口湖',folder:'1qN9674f3Y1Kaptnjn6pBzhuMqYsoadtS'},
+ {t:'11:30',n:'紅葉迴廊(音樂與森之美術館附近)',note:'11 月中正是賞楓期 🍁',wiki:'河口湖',folder:'1_GVj256-Rqf0Ho7S3yCkoEUMBBe0kn6c'},
+ {t:'午餐',n:'餺飥(ほうとう):不動 或 山麓園',meal:1,note:'不動 約 ¥1,100–1,300/山麓園爐端燒套餐約 ¥5,500 起',folder:'1znzratxLfWOOsX3DPgnGFrYv2wjraQ46'},
+ {t:'14:30',n:'山中湖・長池親水公園',note:'看富士山倒影與天鵝 🦢',wiki:'山中湖',folder:'1MkiAUjmzLMpIi5WdVdbFdtZ9eOFNV-4t'},
+ {t:'16:00',n:'御殿場 PREMIUM OUTLETS',wiki:'御殿場プレミアム・アウトレット',folder:'1k8IiDmNfVNgh3YirAM65ojPTCOvnONUL'},
+ {t:'20:00',n:'經過芝公園拍東京鐵塔',wiki:'東京タワー',folder:'1QznvKdNZLUy0-2M5o60LHR5GLXNQxU6Y'},
+ {t:'20:30',n:'宵夜買回去吃',meal:1}
+]},
+{id:'d6',date:'11/17',wd:'二',title:'Day 6 築地・回家',stay:'💤 家裡(21:30 各回各家)',mapQ:'築地場外市場',route:['曳舟駅','築地場外市場','東京駅','京成上野駅','成田国際空港 第1ターミナル'],items:[
+ {t:'09:00',n:'築地外市場',meal:1,note:'海鮮丼・玉子燒・烤干貝',wiki:'築地場外市場',folder:'1aY6cKNG__ejzH3FLAVXBAwRvLcAkLEvY'},
+ {t:'11:00',n:'東京車站最後採買',alt:1,note:'⚠️ 如果 15 號沒去才排這站',wiki:'東京駅',folder:'1RldJ9SA9IcRFHrfu6Ji_ezhyUeK-SdF3'},
+ {t:'13:00',n:'回 Airbnb 整理行李、退房'},
+ {t:'14:30',n:'Skyliner → 成田機場',note:'京成上野出發約 44 分,票價約 ¥2,600',wiki:'スカイライナー'},
+ {t:'17:45',n:'起飛 ✈️(飛機餐)',meal:1},
+ {t:'20:55',n:'抵達桃機',note:'21:30 各回各家,旅程結束 🎉'}
+]}];
+
+/* ---------- 必吃清單(價位為網路查詢參考價,2026/7) ---------- */
+const EATS=[
+{cat:'🍜 拉麵',items:[
+ {n:'AFURI 阿夫利(柚子塩拉麵)',p:'約 ¥1,390'},
+ {n:'篝 Kagari(雞白湯 SOBA,銀座)',p:'約 ¥1,300–1,500'},
+ {n:'銀座八五(米其林,只賣中華そば)',p:'約 ¥1,200,特製 ¥1,600'},
+ {n:'鴨to葱(上野御徒町)',p:'約 ¥1,080–1,200'},
+ {n:'東京油組總本店(油そば)',p:'約 ¥900–1,100'}]},
+{cat:'🍣 壽司',items:[
+ {n:'三浦三崎港(迴轉壽司)',p:'約 ¥2,000–3,000/人'},
+ {n:'活美登利(迴轉壽司)',p:'約 ¥1,500–2,500/人'}]},
+{cat:'🍲 壽喜燒',items:[
+ {n:'今半(淺草/人形町)',p:'午膳 ¥4,400 起,晚間懷石約 ¥10,000+/人'},
+ {n:'米久本店(淺草)',p:'約 ¥4,000–7,000/人'}]},
+{cat:'🥩 燒肉・牛舌',items:[
+ {n:'利久 牛舌定食',p:'約 ¥1,830–3,740(依片數)'},
+ {n:'一頭牛燒肉 房家',p:'約 ¥4,000–6,000/人'},
+ {n:'肉屋台所(放題)',p:'約 ¥4,000–7,000/人'},
+ {n:'牛舌檸檬',p:'約 ¥3,000–5,000/人'},
+ {n:'肉屋橫丁 和牛放題(澀谷)',p:'¥4,500/和牛まみれ ¥6,980(100 分)'}]},
+{cat:'🍻 居酒屋',items:[
+ {n:'鳥貴族',p:'全品 ¥390 均一,約 ¥2,000–3,000/人'}]},
+{cat:'🍰 甜點・咖啡',items:[
+ {n:'Harbs(水果千層)',p:'蛋糕一份約 ¥980–1,100,套餐約 ¥2,000'},
+ {n:'藍瓶咖啡 Blue Bottle',p:'約 ¥600–800'}]},
+{cat:'🗻 富士山區',items:[
+ {n:'ほうとう不動(餺飥)',p:'約 ¥1,100–1,300'},
+ {n:'山麓園(古民家爐端燒)',p:'套餐約 ¥5,500 起'}]},
+{cat:'🍥 其他',items:[
+ {n:'並木藪蕎麥(淺草老店)',p:'約 ¥1,000–1,500'},
+ {n:'五代目花山烏冬(銀座)',p:'鬼釜 ¥1,200、鬼ひも川 ¥800–1,000'}]}];
+
+/* ---------- 必買清單(預設) ---------- */
+const BUYS=['NY Perfect Cheese(東京車站,約 ¥1,100/8入)','LeTAO 起司蛋糕(約 ¥2,000 起)','東京牛奶起司工房(約 ¥1,300/10入)'];
+
+/* ---------- localStorage helpers ---------- */
+const get=k=>localStorage.getItem(LS+k);
+const set=(k,v)=>{try{localStorage.setItem(LS+k,v);return true}catch(e){alert('⚠️ 瀏覽器儲存空間已滿,照片存不進去。請刪除幾張已上傳的照片再試。');return false}};
+const del=k=>localStorage.removeItem(LS+k);
+
+/* ---------- Tabs ---------- */
+const tabsEl=document.getElementById('tabs');
+const mainEl=document.getElementById('main');
+const TABS=[...DAYS.map(d=>({id:d.id,label:d.date+' '+d.wd})),{id:'eat',label:'🍜 必吃'},{id:'buy',label:'🛍️ 必買'}];
+let cur=get('tab')||'d1';
+function renderTabs(){
+  tabsEl.innerHTML='';
+  TABS.forEach(t=>{
+    const b=document.createElement('button');
+    b.textContent=t.label;
+    if(t.id===cur)b.classList.add('on');
+    b.onclick=()=>{cur=t.id;set('tab',t.id);renderTabs();renderMain();window.scrollTo(0,0)};
+    tabsEl.appendChild(b);
+  });
+}
+
+/* ---------- Wikipedia 參考照(免費公開圖,自動抓+快取) ---------- */
+function loadWiki(img,title){
+  const c=get('wimg_'+title);
+  if(c==='none'){img.remove();return}
+  if(c){img.src=c;return}
+  fetch('https://ja.wikipedia.org/api/rest_v1/page/summary/'+encodeURIComponent(title))
+   .then(r=>r.json())
+   .then(j=>{
+     const u=j&&j.thumbnail&&j.thumbnail.source;
+     if(u){set('wimg_'+title,u);img.src=u}
+     else{set('wimg_'+title,'none');img.remove()}
+   }).catch(()=>img.remove());
+}
+
+/* ---------- Google Drive 共享相簿(Apps Script 中繼) ---------- */
+let drivePhotos={}, driveLoaded=false;
+function loadDrive(){
+  if(!GAS_URL)return;
+  fetch(GAS_URL).then(r=>r.json()).then(j=>{
+    drivePhotos={};
+    (j.files||[]).forEach(f=>{
+      if(!f.folderId)return;
+      (drivePhotos[f.folderId]=drivePhotos[f.folderId]||[]).push({id:f.id,t:f.t});
+    });
+    Object.values(drivePhotos).forEach(a=>a.sort((x,y)=>x.t-y.t));
+    driveLoaded=true;renderMain();
+  }).catch(()=>{driveLoaded=true;renderMain()});
+}
+function uploadDrive(file,folderId){
+  compress(file,url=>{
+    fetch(GAS_URL,{method:'POST',body:JSON.stringify({folderId:folderId,name:'IMG_'+Date.now()+'.jpg',dataUrl:url})})
+    .then(r=>r.json()).then(j=>{
+      if(j.ok){(drivePhotos[folderId]=drivePhotos[folderId]||[]).push({id:j.id,t:Date.now()});renderMain()}
+      else{alert('上傳失敗:'+j.error);renderMain()}
+    }).catch(()=>{alert('上傳失敗,請確認網路後再試');renderMain()});
+  });
+}
+function delDrive(id,folderId){
+  fetch(GAS_URL,{method:'POST',body:JSON.stringify({action:'delete',id:id})})
+  .then(()=>{drivePhotos[folderId]=(drivePhotos[folderId]||[]).filter(p=>p.id!==id);renderMain()})
+  .catch(()=>alert('刪除失敗,請確認網路'));
+}
+
+/* ---------- 照片上傳(壓縮後存 localStorage) ---------- */
+function compress(file,cb){
+  const r=new FileReader();
+  r.onload=e=>{
+    const im=new Image();
+    im.onload=()=>{
+      const MAX=800;
+      let w=im.width,h=im.height;
+      if(w>h&&w>MAX){h*=MAX/w;w=MAX}else if(h>=w&&h>MAX){w*=MAX/h;h=MAX}
+      const cv=document.createElement('canvas');cv.width=w;cv.height=h;
+      cv.getContext('2d').drawImage(im,0,0,w,h);
+      cb(cv.toDataURL('image/jpeg',.72));
+    };
+    im.src=e.target.result;
+  };
+  r.readAsDataURL(file);
+}
+function quotaTxt(){
+  let n=0;for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k.startsWith(LS))n+=(localStorage.getItem(k)||'').length}
+  return '本機儲存已用約 '+(n/1024/1024*2).toFixed(1)+' MB / 上限約 5 MB';
+}
+
+/* ---------- 每日頁 ---------- */
+function renderDay(d){
+  const frag=document.createDocumentFragment();
+  const head=document.createElement('div');head.className='day-head';
+  const doneN=d.items.filter((_,i)=>get('done_'+d.id+'_'+i)).length;
+  head.innerHTML='<h2>'+d.title+'</h2><span class="wd">'+d.date+'(週'+d.wd+')</span><span class="prog">'+doneN+'/'+d.items.length+' ✓</span>';
+  frag.appendChild(head);
+  const stay=document.createElement('p');stay.className='stay';stay.textContent=d.stay;frag.appendChild(stay);
+
+  const mb=document.createElement('div');mb.className='mapbox';
+  mb.innerHTML='<iframe loading="lazy" src="https://maps.google.com/maps?q='+encodeURIComponent(d.mapQ)+'&z=12&hl=zh-TW&output=embed"></iframe>';
+  if(d.route){
+    const a=document.createElement('a');a.className='routebtn';a.target='_blank';a.rel='noopener';
+    a.href='https://www.google.com/maps/dir/'+d.route.map(encodeURIComponent).join('/');
+    a.textContent='🧭 開啟當天完整路線(Google Maps 導航)';
+    mb.appendChild(a);
+  }
+  frag.appendChild(mb);
+
+  d.items.forEach((it,i)=>{
+    const key='done_'+d.id+'_'+i, pkey='photo_'+d.id+'_'+i;
+    const el=document.createElement('div');
+    el.className='item'+(it.alt?' alt':'')+(get(key)?' done':'');
+    const chk=document.createElement('div');chk.className='chk';chk.textContent='✓';
+    chk.onclick=()=>{get(key)?del(key):set(key,'1');renderMain();updateOverall()};
+    el.appendChild(chk);
+    const body=document.createElement('div');body.className='body';
+    let badges='';
+    if(it.meal)badges+='<span class="badge meal">🍜 餐食</span>';
+    if(it.alt)badges+='<span class="badge altb">備選</span>';
+    body.innerHTML=(it.t?'<div class="tm">'+it.t+'</div>':'')+
+      '<div class="nm">'+it.n+' <span class="badges">'+badges+
+      (it.folder?'<a class="alb" href="https://drive.google.com/drive/folders/'+it.folder+'" target="_blank" rel="noopener">📁 相簿</a>':'')+
+      '</span></div>'+
+      (it.note?'<div class="nt">'+it.note+'</div>':'');
+    if(it.folder){ /* 只有景點/餐食有照片欄;交通、上班等沒有 */
+      const pics=document.createElement('div');pics.className='pics';
+      if(it.wiki){
+        const img=document.createElement('img');img.className='pic';img.alt=it.n;img.loading='lazy';
+        pics.appendChild(img);loadWiki(img,it.wiki);
+      }
+      if(GAS_URL){
+        (drivePhotos[it.folder]||[]).forEach(ph=>{
+          const w=document.createElement('div');w.className='upl';w.style.borderStyle='solid';
+          w.innerHTML='<img src="https://drive.google.com/thumbnail?id='+ph.id+'&sz=w400" alt="實拍" loading="lazy">';
+          const db=document.createElement('button');db.className='del';db.textContent='×';
+          db.onclick=e=>{e.preventDefault();e.stopPropagation();if(confirm('刪除這張雲端照片?'))delDrive(ph.id,it.folder)};
+          w.appendChild(db);
+          pics.appendChild(w);
+        });
+        const lab=document.createElement('label');lab.className='upl';
+        lab.innerHTML='<span style="font-size:20px">📷</span><span class="ust">'+(driveLoaded?'上傳到雲端':'雲端連線中…')+'</span>';
+        const inp=document.createElement('input');inp.type='file';inp.accept='image/*';
+        inp.onchange=()=>{if(inp.files[0]){lab.querySelector('.ust').textContent='上傳中…';uploadDrive(inp.files[0],it.folder)}};
+        lab.appendChild(inp);
+        pics.appendChild(lab);
+      }else{
+        const saved=get(pkey);
+        const lab=document.createElement('label');lab.className='upl';
+        const inp=document.createElement('input');inp.type='file';inp.accept='image/*';
+        inp.onchange=()=>{if(inp.files[0])compress(inp.files[0],url=>{if(set(pkey,url))renderMain()})};
+        if(saved){
+          lab.innerHTML='<img src="'+saved+'" alt="實拍">';
+          const db=document.createElement('button');db.className='del';db.textContent='×';
+          db.onclick=e=>{e.preventDefault();e.stopPropagation();del(pkey);renderMain()};
+          lab.appendChild(db);
+        }else{
+          lab.innerHTML='<span style="font-size:20px">📷</span><span>上傳實拍</span>';
+        }
+        lab.appendChild(inp);
+        pics.appendChild(lab);
+      }
+      body.appendChild(pics);
+    }
+    el.appendChild(body);
+    frag.appendChild(el);
+  });
+
+  if(d.id==='d1'){
+    const f=document.createElement('div');f.className='sec';
+    f.innerHTML='<h3>✈️ 機票備忘</h3><div class="flight">我們:虎航 NT$5,894/星宇 NT$8,438(合計 NT$14,332)<br>妹妹他們:虎航 NT$6,604/星宇 NT$8,452(合計 NT$15,056)</div>';
+    frag.appendChild(f);
+  }
+  const q=document.createElement('div');q.className='quota';
+  q.textContent=GAS_URL?'照片存放:Google 雲端共享相簿(全員可見)':quotaTxt();
+  frag.appendChild(q);
+  return frag;
+}
+
+/* ---------- 必吃頁 ---------- */
+function renderEat(){
+  const frag=document.createDocumentFragment();
+  EATS.forEach((c,ci)=>{
+    const sec=document.createElement('div');sec.className='sec';
+    sec.innerHTML='<h3>'+c.cat+'</h3>';
+    c.items.forEach((it,ii)=>{
+      const key='eat_'+ci+'_'+ii;
+      const row=document.createElement('div');row.className='eat'+(get(key)?' done':'');
+      const chk=document.createElement('div');chk.className='chk'+(get(key)?'':'');
+      if(get(key)){row.classList.add('done')}
+      chk.textContent='✓';
+      if(get(key)){chk.style.background='var(--ok)';chk.style.borderColor='var(--ok)';chk.style.color='#fff'}
+      chk.onclick=()=>{get(key)?del(key):set(key,'1');renderMain()};
+      const b=document.createElement('div');
+      b.innerHTML='<div class="en">'+it.n+'</div><div class="ep">💴 '+it.p+'</div>';
+      row.appendChild(chk);row.appendChild(b);sec.appendChild(row);
+    });
+    frag.appendChild(sec);
+  });
+  const n=document.createElement('p');n.className='note';n.textContent='※ 價位為 2026/7 網路查詢參考價,實際以店家為準。teamLab 為浮動票價、SHIBUYA SKY 日落場次請提早線上購票。';
+  frag.appendChild(n);
+  return frag;
+}
+
+/* ---------- 必買頁 ---------- */
+function renderBuy(){
+  const frag=document.createDocumentFragment();
+  const sec=document.createElement('div');sec.className='sec';
+  sec.innerHTML='<h3>🛍️ 必買清單</h3>';
+  const custom=JSON.parse(get('buycustom')||'[]');
+  const all=[...BUYS,...custom];
+  all.forEach((name,i)=>{
+    const key='buy_'+i;
+    const row=document.createElement('div');row.className='eat'+(get(key)?' done':'');
+    const chk=document.createElement('div');chk.className='chk';chk.textContent='✓';
+    if(get(key)){chk.style.background='var(--ok)';chk.style.borderColor='var(--ok)';chk.style.color='#fff'}
+    chk.onclick=()=>{get(key)?del(key):set(key,'1');renderMain()};
+    const b=document.createElement('div');b.innerHTML='<div class="en">'+name+'</div>';
+    row.appendChild(chk);row.appendChild(b);
+    if(i>=BUYS.length){
+      const rm=document.createElement('button');
+      rm.textContent='刪除';rm.style.cssText='margin-left:auto;border:0;background:none;color:#c66;font-size:.72rem;cursor:pointer;font-family:inherit';
+      rm.onclick=()=>{custom.splice(i-BUYS.length,1);set('buycustom',JSON.stringify(custom));del('buy_'+i);renderMain()};
+      row.appendChild(rm);
+    }
+    sec.appendChild(row);
+  });
+  const ar=document.createElement('div');ar.className='addrow';
+  const inp=document.createElement('input');inp.placeholder='新增想買的東西…';
+  const btn=document.createElement('button');btn.textContent='加入';
+  btn.onclick=()=>{const v=inp.value.trim();if(!v)return;custom.push(v);set('buycustom',JSON.stringify(custom));renderMain()};
+  inp.onkeydown=e=>{if(e.key==='Enter')btn.onclick()};
+  ar.appendChild(inp);ar.appendChild(btn);sec.appendChild(ar);
+  frag.appendChild(sec);
+  const n=document.createElement('p');n.className='note';n.textContent='勾選與自訂項目都存在這支手機的瀏覽器裡(localStorage)。';
+  frag.appendChild(n);
+  return frag;
+}
+
+/* ---------- Overall progress ---------- */
+function updateOverall(){
+  let total=0,done=0;
+  DAYS.forEach(d=>d.items.forEach((_,i)=>{total++;if(get('done_'+d.id+'_'+i))done++}));
+  document.getElementById('overallFill').style.width=(total?done/total*100:0)+'%';
+  document.getElementById('overallTxt').textContent='整趟旅程達成 '+done+'/'+total;
+}
+
+function renderMain(){
+  mainEl.innerHTML='';
+  const d=DAYS.find(x=>x.id===cur);
+  if(d)mainEl.appendChild(renderDay(d));
+  else if(cur==='eat')mainEl.appendChild(renderEat());
+  else mainEl.appendChild(renderBuy());
+  updateOverall();
+}
+renderTabs();renderMain();loadDrive();
+</script>
+</body>
+</html>
