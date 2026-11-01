@@ -253,12 +253,12 @@ function compress(file,cb){
   r.onload=e=>{
     const im=new Image();
     im.onload=()=>{
-      const MAX=800;
+      const MAX=GAS_URL?1920:800; /* 雲端照片要剪成 1080p 影片;localStorage 容量小,維持 800 */
       let w=im.width,h=im.height;
       if(w>h&&w>MAX){h*=MAX/w;w=MAX}else if(h>=w&&h>MAX){w*=MAX/h;h=MAX}
       const cv=document.createElement('canvas');cv.width=w;cv.height=h;
       cv.getContext('2d').drawImage(im,0,0,w,h);
-      cb(cv.toDataURL('image/jpeg',.72));
+      cb(cv.toDataURL('image/jpeg',GAS_URL?.85:.72));
     };
     im.src=e.target.result;
   };
